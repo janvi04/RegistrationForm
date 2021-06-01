@@ -7,7 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>You have successfully loggedIn</h1>
+<h1>Welcome User</h1>
 <a href="MemberLogin.jsp">Logout</a>
+<a href="index.jsp">View all users</a>
+<a href="search.html">Search User</a>
+
 </body>
 </html>

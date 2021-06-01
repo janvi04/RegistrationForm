@@ -40,33 +40,42 @@ public class RegisterDao {
 	{
 		loadDriver(dbDriver);
 		Connection con=getConnection();
+		String result="Data entered successfully";
+		String sql="insert into party(FirstName,LastName,address,city,state,country,zip,phone) values(?,?,?,?,?,?,?,?)";
+		String sq1="insert into userlogin(userLoginId,userpassword,partyId) values(?,?,?)";
 		
-		String sql ="insert into party(firstName,lastName,address,city,state,country,zip,phone) values(?,?,?,?,?,?,?,?)";
-		 String sql2="insert into userlogin(userloginId,userpassword) values(?,?)"; 
-		 String result="Data entered successfully";
-		
-		PreparedStatement ps;
-		PreparedStatement ps2;
 		try {
-			ps = con.prepareStatement(sql);
+	PreparedStatement ps=con.prepareStatement(sql);
+	ps.setString(1, member.getFirstName());
+	ps.setString(2, member.getLastName());
+	ps.setString(3, member.getAddress());
+	ps.setString(4, member.getCity());
+	ps.setString(5, member.getState());
+	ps.setString(6, member.getCountry());
+	ps.setString(7, member.getZipcode());
+	ps.setString(8, member.getPhoneNumber());
+	ps.executeUpdate();
+	
+	
+	PreparedStatement ps3=con.prepareStatement("select max(partyId) from party");
+     ResultSet rs=ps3.executeQuery();
+	
+	rs.next();
+	
+	int id;
+	id = rs.getInt(1);
+	
 
-			ps.setString(1, member.getFirstName());
-			ps.setString(2, member.getLastName());
-			ps.setString(3,member.getAddress());
-			ps.setString(4, member.getCity());
-			ps.setString(5,member.getState());
-			ps.setString(6, member.getCountry());
-			ps.setString(7, member.getZipcode());
-			ps.setString(8,member.getPhoneNumber());
-			
-			ps.executeUpdate();
-			ps2=con.prepareStatement(sql2);
-			
-			ps2.setString(1, member.getUserName());
-			ps2.setString(2, member.getPassword());
 
-			ps2.executeUpdate();
-			
+	PreparedStatement ps1=con.prepareStatement(sq1);
+	
+	ps1.setString(1, member.getUserName());
+	ps1.setString(2, member.getPassword());
+	ps1.setInt(3,id);
+	
+	
+	ps1.executeUpdate();
+	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,7 +85,7 @@ public class RegisterDao {
 		return result;
 	}
 	
-	//user login
+	
 	
 	
 	
